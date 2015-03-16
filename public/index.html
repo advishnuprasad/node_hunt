@@ -1,0 +1,97 @@
+<html ng-app="scotchTodo">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Optimize mobile viewport -->
+
+    <title>Node/Angular Todo App</title>
+
+    <!-- SCROLLS -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"><!-- load bootstrap -->
+    <style>
+        html                    { overflow-y:scroll; }
+        body                    { padding-top:50px; }
+        #todo-list              { margin-bottom:30px; }
+    </style>
+
+    <!-- SPELLS -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script><!-- load jquery -->
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script><!-- load angular -->
+    <script src="core.js"></script>
+  </head>
+
+  <body ng-controller="mainController">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6" style="height:250px">
+          <div class="panel panel-primary">
+            <div class="panel-heading">Level {{ question.level }} : {{ question.question }} </h3> </div>
+            <div class="panel-body">
+              <img ng-src="{{question.img_url}}" width="300px" height="200px"></img>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 well" style="height:250px">
+          <form>
+            <input type="hidden" name="level" class="form-control input-lg" placeholder="Type your answer here" ng-model="formData.level">
+            <input type="text" name="answer" class="form-control input-lg" placeholder="Type your answer here" ng-model="formData.answer">
+            <br />
+            <button type="submit" class="btn btn-primary btn-lg" ng-click="checkAnswer()">Check</button>
+            <div class="report_answer">
+              {{ answer }}
+            </div>
+          </form>
+        </div>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="col-sm-12">
+          <div><button id="mybutton" ng-click="showAlert()">Click me</button></div>
+          <div>
+            <div ng-show="show">
+              <h3> Add Question and answer </h3>
+              <form>
+                <input type="text" class="form-control input-lg text-center" placeholder="Level" ng-model="questionData.level">
+                <input type="text" class="form-control input-lg text-center" placeholder="Question" ng-model="questionData.question">
+                <input type="text" class="form-control input-lg text-center" placeholder="img_url" ng-model="questionData.img_url">
+                <input type="text" class="form-control input-lg text-center" placeholder="answer" ng-model="questionData.answer">
+                <button type="submit" class="btn btn-primary btm-md" ng-click="createQuestion()">Create</button>
+              </form>
+              <div class="report_answer">
+                {{ created_or_not }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hide">
+        <div class="jumbotron text-center">
+          <h1>My Todo List <span class="label label-info">{{ todos.length }}</span></h1>
+        </div>
+
+        <div id="todo-list" class="row">
+          <div class="col-sm-4 col-sm-offset-4">
+            <div class="checkbox" ng-repeat="todo in todos">
+              <label>
+                <input type="checkbox" ng-click="deleteTodo(todo._id)"> {{ todo.text }}
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div id="todo-form" class="row">
+          <div class="col-sm-8 col-sm-offset-2 text-center">
+            <form>
+              <div class="form-group">
+                <!-- BIND THIS VALUE TO formData.text IN ANGULAR -->
+                <input type="text" class="form-control input-lg text-center" placeholder="Add your todo list" ng-model="formData.text">
+              </div>
+              <!-- createToDo() WILL CREATE NEW TODOS -->
+              <button type="submit" class="btn btn-primary btn-lg" ng-click="createTodo()">Add</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
