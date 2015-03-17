@@ -16,42 +16,25 @@ function mainController($scope, $http) {
   $http.get('/api/questions')
     .success(function(data) {
       $scope.question = data;
+      $scope.formData.level = data.level;
       console.log(data);
     })
     .error(function(error){
       console.log('Error :: ' + error)
     });
 
-  $scope.createTodo = function() {
-    $http.post('/api/todos', $scope.formData)
-      .success(function(data){
-        $scope.formData = {};
-        $scope.todos = data;
-        console.log(data);
-      })
-      .error(function(error){
-        console("Error ::" + error);
-      });
-  };
-
-  $scope.deleteTodo = function(id) {
-    $http.delete('/api/todos/' + id)
-      .success(function(data){
-        $scope.todos = data;
-        console.log(data);
-      })
-      .error(function(error){
-        console.log("Error:: " + error);
-      })
-  };
-
   $scope.checkAnswer = function() {
     $scope.answer = "";
     $http.post('/api/check_answer/', $scope.formData)
       .success(function(data) {
-        $scope.formData = {};
-        $scope.answer = data.result;
-        console.log(data);
+        if(data.result == "true"){
+          $scope.formData = {};
+          $scope.formData.level = data.next_question.level;
+          $scope.question = data.next_question;
+          console.log(data);
+        }
+        else
+          $scope.answer = data.result;
       })
       .error(function(error){
         console.log('Error :: ' + error)
