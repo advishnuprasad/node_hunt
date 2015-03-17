@@ -30,7 +30,7 @@ var Question = mongoose.model('Question', {
 
 
 app.get('/api/questions', function(req, res) {
-  Question.find({answered: null}).sort({level: 1}).execFind(function(err, questions) {
+  Question.find({answered: false}).sort({level: 1}).execFind(function(err, questions) {
       // if there is an error retrieving, send the error. nothing after res.send(err) will execute
       console.log(questions);
       if (err)
@@ -49,7 +49,7 @@ app.post('/api/check_answer', function(req, res) {
     if(question && question.answer == req.body.answer){
       question.answered = true;
       question.save();
-      Question.find({answered: null}).sort({level: 1}).execFind(function(err, questions) {
+      Question.find({answered: false}).sort({level: 1}).execFind(function(err, questions) {
         res.json({next_question: questions[0], result: "true"});
       });
     }
